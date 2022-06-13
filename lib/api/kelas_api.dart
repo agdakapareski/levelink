@@ -12,7 +12,7 @@ class KelasApi {
 
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
-      var datas = body['data'][0]['kelas'];
+      var datas = body['data']['kelas'];
 
       List<Kelas> kelass = [];
 
