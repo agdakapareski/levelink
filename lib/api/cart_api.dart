@@ -79,7 +79,6 @@ class CartApi {
         for (var item in item['detail_cart']) {
           Kelas k = Kelas(
             id: item['kelas']['id'],
-            kapasitas: item['kelas']['kapasitas'],
             hari: item['kelas']['hari'],
             jam: item['kelas']['jam'],
             harga: double.parse(item['kelas']['harga'].toString()),
