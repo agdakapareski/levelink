@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 import 'custom_theme.dart';
-import 'list_data.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key? key}) : super(key: key);

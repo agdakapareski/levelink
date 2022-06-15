@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sivat/widget/padded_widget.dart';
 
 class Colour {
   static Color red = const Color(0xFFCD4236);
@@ -65,6 +66,38 @@ class MapelButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class AppBarLogo extends StatelessWidget {
+  const AppBarLogo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PaddedWidget(
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Image.asset(
+          'LEVELINK-logo-small.png',
+          height: 22,
+        ),
+      ),
+    );
+  }
+}
+
+loading() {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        CircularProgressIndicator(),
+        SizedBox(
+          height: 10,
+        ),
+        Text('memuat')
+      ],
+    ),
+  );
 }
 
 class CustomDivider extends StatelessWidget {

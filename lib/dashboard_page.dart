@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sivat/account_page.dart';
 import 'package:sivat/custom_theme.dart';
 import 'package:sivat/list_data.dart';
+import 'package:sivat/model/jadwal_model.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
 import 'package:sivat/widget/padded_widget.dart';
@@ -170,43 +171,47 @@ class _DashboardPageState extends State<DashboardPage> {
                             ],
                           ),
                         )
-                      : Column(
-                          children: jadwalProvider.jadwals
-                              .map(
-                                (jadwal) => ListTile(
-                                  shape: const Border(
-                                    bottom: BorderSide(
-                                      color: Color(0xFFEEEEEE),
-                                    ),
-                                  ),
-                                  title: Text(
-                                    jadwal.kelas!.hari!.toUpperCase() +
-                                        ', ' +
-                                        jadwal.kelas!.jam!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      // fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    jadwal.kelas!.mataPelajaran!.mataPelajaran!,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    jadwal.guru!.nama!,
-                                    style: TextStyle(
-                                      color: Colour.blue,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: jadwalProvider.jadwals.length,
+                          itemBuilder: (context, index) {
+                            Jadwal jadwal = jadwalProvider.jadwals[index];
+                            return listJadwal(jadwal);
+                          },
                         ),
                 ),
               ],
             ),
     );
   }
+}
+
+listJadwal(Jadwal jadwal) {
+  return ListTile(
+    shape: const Border(
+      bottom: BorderSide(
+        color: Color(0xFFEEEEEE),
+      ),
+    ),
+    title: Text(
+      jadwal.kelas!.hari!.toUpperCase() + ', ' + jadwal.kelas!.jam!,
+      style: const TextStyle(
+        fontSize: 14,
+        // fontWeight: FontWeight.bold,
+      ),
+    ),
+    subtitle: Text(
+      jadwal.kelas!.mataPelajaran!.mataPelajaran!,
+      style: const TextStyle(
+        fontSize: 13,
+      ),
+    ),
+    trailing: Text(
+      jadwal.guru!.nama!,
+      style: TextStyle(
+        color: Colour.blue,
+      ),
+    ),
+  );
 }
