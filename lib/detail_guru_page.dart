@@ -6,6 +6,7 @@ import 'package:sivat/cart_page.dart';
 import 'package:sivat/custom_theme.dart';
 import 'package:sivat/list_data.dart';
 import 'package:intl/intl.dart';
+import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/kelas_provider.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
@@ -43,6 +44,7 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
   @override
   Widget build(BuildContext context) {
     final kelasProvider = Provider.of<KelasProvider>(context);
+    final jadwalProvider = Provider.of<JadwalProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -140,6 +142,31 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
                                       onTap: () {
                                         if (kelas.isPenuh == 0) {
                                           if (kelas.isTambah!) {
+                                            for (var item
+                                                in jadwalProvider.jadwals) {
+                                              if (kelas.hari ==
+                                                      item.kelas!.hari &&
+                                                  kelas.jam ==
+                                                      item.kelas!.jam) {
+                                                var snackBar = SnackBar(
+                                                  content: const Text(
+                                                    'Jadwal Bertabrakan!',
+                                                  ),
+                                                  action: SnackBarAction(
+                                                    textColor: Colors.blue,
+                                                    label: 'dismiss',
+                                                    onPressed: () {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .hideCurrentSnackBar();
+                                                    },
+                                                  ),
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                                return;
+                                              }
+                                            }
                                             carts.add(kelas);
                                             // print(cart);
                                             setState(() {

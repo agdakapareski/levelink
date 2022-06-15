@@ -1,6 +1,6 @@
 import 'package:sivat/model/mata_pelajaran_model.dart';
 
-class Kelas {
+class Kelas implements Comparable<Kelas> {
   int? id;
   String? hari;
   String? jam;
@@ -20,6 +20,16 @@ class Kelas {
     this.mataPelajaran,
     this.isTambah,
   });
+
+  @override
+  int compareTo(Kelas other) {
+    if (isPenuh == other.isPenuh) {
+      return 0;
+    } else if (isPenuh == 0) {
+      return -1;
+    }
+    return 1;
+  }
 
   factory Kelas.fromJson(Map<String, dynamic> json) {
     return Kelas(

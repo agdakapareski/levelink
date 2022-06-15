@@ -11,6 +11,7 @@ class KelasProvider extends ChangeNotifier {
     kelas = [];
     loading = true;
     kelas = await KelasApi().getKelas(idGuru);
+    kelas.sort();
     loading = false;
 
     notifyListeners();

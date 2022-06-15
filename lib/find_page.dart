@@ -182,6 +182,7 @@ listGuruBasedRating(BuildContext context, Guru pengajar) {
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         children: pengajar.mataPelajarans!.map((mapel) {
           var index = pengajar.mataPelajarans!.indexOf(mapel);
           return Text(
