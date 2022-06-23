@@ -7,6 +7,8 @@ import 'package:sivat/providers/kelas_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
 import 'package:sivat/splash_screen.dart';
 
+import 'providers/pertemuan_provider.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -21,6 +23,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<TabProvider>(create: (_) => TabProvider()),
   ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
   ChangeNotifierProvider<JadwalProvider>(create: (_) => JadwalProvider()),
+  ChangeNotifierProvider<PertemuanProvider>(create: (_) => PertemuanProvider()),
 ];
 
 class MyApp extends StatelessWidget {

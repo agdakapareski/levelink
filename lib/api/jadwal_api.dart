@@ -29,6 +29,7 @@ class JadwalApi {
             hari: jadwal['kelas']['hari'],
             jam: jadwal['kelas']['jam'],
           ),
+          isAktif: jadwal['is_aktif'],
         );
 
         jadwals.add(j);
