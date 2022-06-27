@@ -7,7 +7,6 @@ import 'package:sivat/model/kelas_model.dart';
 import 'package:sivat/model/mata_pelajaran_model.dart';
 import 'package:sivat/model/pertemuan_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:sivat/model/siswa_model.dart';
 
 import '../model/jadwal_model.dart';
 

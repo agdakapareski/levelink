@@ -3,11 +3,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sivat/providers/pertemuan_provider.dart';
-import 'package:sivat/widget/confirm_dialog.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 import 'custom_theme.dart';
-import 'model/pertemuan_model.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key? key}) : super(key: key);
