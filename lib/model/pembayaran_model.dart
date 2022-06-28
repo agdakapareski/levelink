@@ -6,7 +6,7 @@ class Pembayaran {
   double? totalBayar;
   bool? statusBayar;
   Guru? guru;
-  Tagihan? tagihan;
+  List<Tagihan>? tagihan;
 
   Pembayaran({
     this.id,

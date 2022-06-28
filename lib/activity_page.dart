@@ -72,6 +72,7 @@ class _ActivityPageState extends State<ActivityPage> {
               ),
             )
           : ListView(
+              // physics: const NeverScrollableScrollPhysics(),
               children: [
                 PaddedWidget(
                   child: Column(

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sivat/custom_theme.dart';
+import 'package:sivat/list_data.dart';
+import 'package:sivat/model/pembayaran_model.dart';
 import 'package:sivat/providers/cart_provider.dart';
+import 'package:sivat/providers/pembayaran_provider.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -14,14 +18,24 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(
+      context,
+      listen: false,
+    );
     cartProvider.getTransaksi();
+
+    final pembayaranProvider = Provider.of<PembayaranProvider>(
+      context,
+      listen: false,
+    );
+    pembayaranProvider.getPembayaran(currentid!);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final pembayaranProvider = Provider.of<PembayaranProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -33,6 +47,24 @@ class _TransactionPageState extends State<TransactionPage> {
             'LEVELINK-logo-small.png',
             height: 22,
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                final pembayaranProvider = Provider.of<PembayaranProvider>(
+                  context,
+                  listen: false,
+                );
+                pembayaranProvider.getPembayaran(
+                  currentid!,
+                );
+              },
+              icon: Icon(
+                Icons.refresh,
+                color: Colour.blue,
+              ),
+              splashRadius: 20,
+            )
+          ],
           bottom: TabBar(
             indicatorColor: Colour.blue,
             tabs: const [
@@ -168,38 +200,6 @@ class _TransactionPageState extends State<TransactionPage> {
                                 ],
                               ),
                             ),
-                      // const CustomDivider(),
-                      // const SizedBox(
-                      //   height: 16,
-                      // ),
-                      // const PaddedWidget(
-                      //   child: SmallerTitleText('Tagihan'),
-                      // ),
-                      // const SizedBox(
-                      //   height: 16,
-                      // ),
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //     border: Border(
-                      //       bottom: BorderSide(
-                      //         color: Color(0xFFEEEEEE),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   child: PaddedWidget(
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: const [
-                      //         Text(
-                      //           'Belum ada tagihan',
-                      //         ),
-                      //         SizedBox(
-                      //           height: 16,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   )
                 : Center(
@@ -214,9 +214,75 @@ class _TransactionPageState extends State<TransactionPage> {
                       ],
                     ),
                   ),
-            const Center(
-              child: Text('Tagihan'),
-            ),
+            pembayaranProvider.isLoading == false
+                ? ListView(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                    ),
+                    children: [
+                      const PaddedWidget(
+                        child: SmallerTitleText('Tagihan'),
+                      ),
+                      pembayaranProvider.apiBayar.belumBayar!.isNotEmpty
+                          ? ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: pembayaranProvider
+                                  .apiBayar.belumBayar!.length,
+                              itemBuilder: (context, index) {
+                                Pembayaran belumBayar = pembayaranProvider
+                                    .apiBayar.belumBayar![index];
+                                return ListTile(
+                                  shape: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]!),
+                                  ),
+                                  title: Text(
+                                    belumBayar.guru!.nama!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    NumberFormat.simpleCurrency(
+                                      name: 'Rp. ',
+                                      locale: 'id',
+                                    ).format(
+                                      belumBayar.totalBayar,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 16,
+                              ),
+                              child: PaddedWidget(
+                                child: Text('tagihan kosong'),
+                              ),
+                            ),
+                      const CustomDivider(),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const PaddedWidget(
+                        child: SmallerTitleText('Riwayat'),
+                      ),
+                    ],
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('memuat')
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),

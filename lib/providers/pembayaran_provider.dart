@@ -8,7 +8,7 @@ class PembayaranProvider extends ChangeNotifier {
 
   getPembayaran(int idUser) async {
     isLoading = true;
-    apiBayar = PembayaranApi().getPembayaran(idUser);
+    apiBayar = await PembayaranApi().getPembayaran(idUser);
     isLoading = false;
     notifyListeners();
   }

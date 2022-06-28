@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:sivat/providers/cart_provider.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/kelas_provider.dart';
+import 'package:sivat/providers/pembayaran_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
 import 'package:sivat/splash_screen.dart';
 
@@ -19,11 +20,24 @@ void main() {
 }
 
 List<SingleChildWidget> providers = [
-  ChangeNotifierProvider<KelasProvider>(create: (_) => KelasProvider()),
-  ChangeNotifierProvider<TabProvider>(create: (_) => TabProvider()),
-  ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
-  ChangeNotifierProvider<JadwalProvider>(create: (_) => JadwalProvider()),
-  ChangeNotifierProvider<PertemuanProvider>(create: (_) => PertemuanProvider()),
+  ChangeNotifierProvider<KelasProvider>(
+    create: (_) => KelasProvider(),
+  ),
+  ChangeNotifierProvider<TabProvider>(
+    create: (_) => TabProvider(),
+  ),
+  ChangeNotifierProvider<CartProvider>(
+    create: (_) => CartProvider(),
+  ),
+  ChangeNotifierProvider<JadwalProvider>(
+    create: (_) => JadwalProvider(),
+  ),
+  ChangeNotifierProvider<PertemuanProvider>(
+    create: (_) => PertemuanProvider(),
+  ),
+  ChangeNotifierProvider<PembayaranProvider>(
+    create: (_) => PembayaranProvider(),
+  ),
 ];
 
 class MyApp extends StatelessWidget {

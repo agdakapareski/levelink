@@ -46,10 +46,25 @@ class PembayaranApi {
 
     List<Pembayaran> belumBayar = [];
     List<Pembayaran> riwayatBayar = [];
+    List<Tagihan> tagihans = [];
+    List<Tagihan> riwayatTagihan = [];
 
     if (response.statusCode == 200) {
       if (listDataBelumBayar != []) {
         for (var data in listDataBelumBayar) {
+          for (var tagihan in data['tagihan']) {
+            Tagihan t = Tagihan(
+              id: tagihan['id'],
+              hargaKelas: tagihan['harga_kelas'].runtimeType == int
+                  ? double.parse(tagihan['harga_kelas'].toString())
+                  : tagihan['harga_kelas'],
+              pertemuan: Pertemuan(
+                materi: tagihan['pertemuan']['materi'],
+              ),
+            );
+
+            tagihans.add(t);
+          }
           Pembayaran bayar = Pembayaran(
             id: data['id'],
             totalBayar: data['total_bayar'].runtimeType == int
@@ -60,15 +75,7 @@ class PembayaranApi {
               id: data['guru']['id'],
               nama: data['guru']['nama_pengguna'],
             ),
-            tagihan: Tagihan(
-              id: data['tagihan']['id'],
-              hargaKelas: data['tagihan']['harga_kelas'].runtimeType == int
-                  ? double.parse(data['tagihan']['harga_kelas'].toString())
-                  : data['tagihan']['harga_kelas'],
-              pertemuan: Pertemuan(
-                materi: data['tagihan']['pertemuan']['materi'],
-              ),
-            ),
+            tagihan: tagihans,
           );
 
           belumBayar.add(bayar);
@@ -79,6 +86,19 @@ class PembayaranApi {
 
       if (listDataRiwayatBayar != []) {
         for (var data in listDataRiwayatBayar) {
+          for (var tagihan in data['tagihan']) {
+            Tagihan t = Tagihan(
+              id: tagihan['id'],
+              hargaKelas: tagihan['harga_kelas'].runtimeType == int
+                  ? double.parse(tagihan['harga_kelas'].toString())
+                  : tagihan['harga_kelas'],
+              pertemuan: Pertemuan(
+                materi: tagihan['pertemuan']['materi'],
+              ),
+            );
+
+            riwayatTagihan.add(t);
+          }
           Pembayaran bayar = Pembayaran(
             id: data['id'],
             totalBayar: data['total_bayar'].runtimeType == int
@@ -89,15 +109,7 @@ class PembayaranApi {
               id: data['guru']['id'],
               nama: data['guru']['nama_pengguna'],
             ),
-            tagihan: Tagihan(
-              id: data['tagihan']['id'],
-              hargaKelas: data['tagihan']['harga_kelas'].runtimeType == int
-                  ? double.parse(data['tagihan']['harga_kelas'].toString())
-                  : data['tagihan']['harga_kelas'],
-              pertemuan: Pertemuan(
-                materi: data['tagihan']['pertemuan']['materi'],
-              ),
-            ),
+            tagihan: riwayatTagihan,
           );
 
           riwayatBayar.add(bayar);
