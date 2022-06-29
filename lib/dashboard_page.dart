@@ -3,6 +3,7 @@
 /// File ini berisi UI untuk halaman dashboard.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:sivat/account_page.dart';
 import 'package:sivat/custom_theme.dart';
@@ -182,29 +183,44 @@ class _DashboardPageState extends State<DashboardPage> {
 }
 
 listJadwal(Jadwal jadwal) {
-  return ListTile(
-    shape: const Border(
-      bottom: BorderSide(
-        color: Color(0xFFEEEEEE),
-      ),
+  return Slidable(
+    endActionPane: ActionPane(
+      motion: const DrawerMotion(),
+      extentRatio: 0.3,
+      children: [
+        SlidableAction(
+          onPressed: (context) {},
+          backgroundColor: Colour.red,
+          foregroundColor: Colors.white,
+          icon: Icons.clear,
+          label: 'Akhiri Kelas',
+        ),
+      ],
     ),
-    title: Text(
-      jadwal.kelas!.hari!.toUpperCase() + ', ' + jadwal.kelas!.jam!,
-      style: const TextStyle(
-        fontSize: 14,
-        // fontWeight: FontWeight.bold,
+    child: ListTile(
+      shape: const Border(
+        bottom: BorderSide(
+          color: Color(0xFFEEEEEE),
+        ),
       ),
-    ),
-    subtitle: Text(
-      jadwal.kelas!.mataPelajaran!.mataPelajaran!,
-      style: const TextStyle(
-        fontSize: 13,
+      title: Text(
+        jadwal.kelas!.hari!.toUpperCase() + ', ' + jadwal.kelas!.jam!,
+        style: const TextStyle(
+          fontSize: 14,
+          // fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-    trailing: Text(
-      jadwal.guru!.nama!,
-      style: TextStyle(
-        color: Colour.blue,
+      subtitle: Text(
+        jadwal.kelas!.mataPelajaran!.mataPelajaran!,
+        style: const TextStyle(
+          fontSize: 13,
+        ),
+      ),
+      trailing: Text(
+        jadwal.guru!.nama!,
+        style: TextStyle(
+          color: Colour.blue,
+        ),
       ),
     ),
   );

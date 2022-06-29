@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sivat/detail_riwayat_pertemuan_page.dart';
 import 'package:sivat/providers/pertemuan_provider.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
@@ -119,7 +120,17 @@ class _ActivityPageState extends State<ActivityPage> {
                           extentRatio: 0.25,
                           children: [
                             SlidableAction(
-                              onPressed: (context) {},
+                              onPressed: (context) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailRiwayatPertemuanPage(
+                                      riwayat: riwayat,
+                                    ),
+                                  ),
+                                );
+                              },
                               backgroundColor: Colour.blue,
                               foregroundColor: Colors.white,
                               icon: Icons.list,

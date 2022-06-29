@@ -56,6 +56,13 @@ class _TransactionPageState extends State<TransactionPage> {
                   context,
                   listen: false,
                 );
+
+                final cartProvider = Provider.of<CartProvider>(
+                  context,
+                  listen: false,
+                );
+
+                cartProvider.getTransaksi();
                 pembayaranProvider.getPembayaran(
                   currentid!,
                 );
@@ -241,6 +248,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                       CupertinoPageRoute(
                                         builder: (context) =>
                                             DetailPembayaranPage(
+                                          idPembayaran: belumBayar.id,
                                           namaGuru: belumBayar.guru!.nama,
                                           tagihans: belumBayar.tagihan,
                                           totalHarga: belumBayar.totalBayar,
@@ -289,6 +297,64 @@ class _TransactionPageState extends State<TransactionPage> {
                       const PaddedWidget(
                         child: SmallerTitleText('RIWAYAT'),
                       ),
+                      pembayaranProvider.apiBayar.riwayatBayar!.isNotEmpty
+                          ? ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: pembayaranProvider
+                                  .apiBayar.riwayatBayar!.length,
+                              itemBuilder: (context, index) {
+                                Pembayaran riwayatBayar = pembayaranProvider
+                                    .apiBayar.riwayatBayar![index];
+                                return ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            DetailPembayaranPage(
+                                          idPembayaran: riwayatBayar.id,
+                                          namaGuru: riwayatBayar.guru!.nama,
+                                          tagihans: riwayatBayar.tagihan,
+                                          totalHarga: riwayatBayar.totalBayar,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  shape: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]!),
+                                  ),
+                                  title: Text(
+                                    riwayatBayar.guru!.nama!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    NumberFormat.simpleCurrency(
+                                      name: 'Rp. ',
+                                      locale: 'id',
+                                    ).format(
+                                      riwayatBayar.totalBayar,
+                                    ),
+                                    style: TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                      color: Colour.red,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 16,
+                              ),
+                              child: PaddedWidget(
+                                child: Text('riwayat kosong'),
+                              ),
+                            ),
                     ],
                   )
                 : Center(

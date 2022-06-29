@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:sivat/list_data.dart';
 import 'package:sivat/model/tagihan_model.dart';
+import 'package:sivat/providers/pembayaran_provider.dart';
 import 'package:sivat/widget/custom_button.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 import 'custom_theme.dart';
 
 class DetailPembayaranPage extends StatefulWidget {
+  final int? idPembayaran;
   final String? namaGuru;
   final List<Tagihan>? tagihans;
   final double? totalHarga;
   const DetailPembayaranPage({
     Key? key,
+    required this.idPembayaran,
     required this.namaGuru,
     required this.tagihans,
     required this.totalHarga,
@@ -24,6 +29,7 @@ class DetailPembayaranPage extends StatefulWidget {
 class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   @override
   Widget build(BuildContext context) {
+    final pembayaranProvider = Provider.of<PembayaranProvider>(context);
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: SizedBox(
@@ -61,7 +67,14 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      pembayaranProvider.updatePembayaran(
+                        widget.idPembayaran!,
+                        currentid!,
+                      );
+
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       height: 60,
                       color: Colour.red,
