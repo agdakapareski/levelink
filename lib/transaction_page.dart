@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sivat/custom_theme.dart';
+import 'package:sivat/detail_pembayaran_page.dart';
 import 'package:sivat/list_data.dart';
 import 'package:sivat/model/pembayaran_model.dart';
 import 'package:sivat/providers/cart_provider.dart';
@@ -221,7 +223,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     ),
                     children: [
                       const PaddedWidget(
-                        child: SmallerTitleText('Tagihan'),
+                        child: SmallerTitleText('TAGIHAN'),
                       ),
                       pembayaranProvider.apiBayar.belumBayar!.isNotEmpty
                           ? ListView.builder(
@@ -233,6 +235,19 @@ class _TransactionPageState extends State<TransactionPage> {
                                 Pembayaran belumBayar = pembayaranProvider
                                     .apiBayar.belumBayar![index];
                                 return ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            DetailPembayaranPage(
+                                          namaGuru: belumBayar.guru!.nama,
+                                          tagihans: belumBayar.tagihan,
+                                          totalHarga: belumBayar.totalBayar,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   shape: Border(
                                     bottom:
                                         BorderSide(color: Colors.grey[200]!),
@@ -249,6 +264,11 @@ class _TransactionPageState extends State<TransactionPage> {
                                       locale: 'id',
                                     ).format(
                                       belumBayar.totalBayar,
+                                    ),
+                                    style: TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                      color: Colour.red,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 );
@@ -267,7 +287,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         height: 12,
                       ),
                       const PaddedWidget(
-                        child: SmallerTitleText('Riwayat'),
+                        child: SmallerTitleText('RIWAYAT'),
                       ),
                     ],
                   )

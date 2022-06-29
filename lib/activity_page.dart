@@ -71,8 +71,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ],
               ),
             )
-          : ListView(
-              // physics: const NeverScrollableScrollPhysics(),
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PaddedWidget(
                   child: Column(
@@ -82,13 +82,7 @@ class _ActivityPageState extends State<ActivityPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        'Aktifitas',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      const SmallerTitleText('AKTIFITAS'),
                       const SizedBox(
                         height: 10,
                       ),
@@ -104,101 +98,97 @@ class _ActivityPageState extends State<ActivityPage> {
                   height: 16,
                 ),
                 const PaddedWidget(
-                  child: Text(
-                    'Riwayat Aktifitas',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: SmallerTitleText('RIWAYAT AKTIFITAS'),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                ListView.builder(
-                  itemCount:
-                      pertemuanProvider.viewPertemuan.riwayatPertemuan!.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var riwayat = pertemuanProvider
-                        .viewPertemuan.riwayatPertemuan![index];
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: pertemuanProvider
+                        .viewPertemuan.riwayatPertemuan!.length,
+                    shrinkWrap: true,
+                    // physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var riwayat = pertemuanProvider
+                          .viewPertemuan.riwayatPertemuan![index];
 
-                    return Slidable(
-                      endActionPane: ActionPane(
-                        motion: const DrawerMotion(),
-                        extentRatio: 0.25,
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {},
-                            backgroundColor: Colour.blue,
-                            foregroundColor: Colors.white,
-                            icon: Icons.list,
-                            label: 'Detail',
-                          ),
-                        ],
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey[200]!),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        child: Column(
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          motion: const DrawerMotion(),
+                          extentRatio: 0.25,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  riwayat.jadwal!.guru!.nama!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  riwayat.jadwal!.kelas!.mataPelajaran!
-                                      .mataPelajaran!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                const Text('Materi :'),
-                                const Spacer(),
-                                Text(riwayat.materi!),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                const Text('Durasi :'),
-                                const Spacer(),
-                                Text(
-                                  '${DateFormat('kk:mm').format(
-                                    riwayat.jamMulai!,
-                                  )} - ${DateFormat('kk:mm').format(
-                                    riwayat.jamSelesai!,
-                                  )}',
-                                ),
-                              ],
+                            SlidableAction(
+                              onPressed: (context) {},
+                              backgroundColor: Colour.blue,
+                              foregroundColor: Colors.white,
+                              icon: Icons.list,
+                              label: 'Detail',
                             ),
                           ],
                         ),
-                      ),
-                    );
-                  },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.grey[200]!),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    riwayat.jadwal!.guru!.nama!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    riwayat.jadwal!.kelas!.mataPelajaran!
+                                        .mataPelajaran!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  const Text('Materi :'),
+                                  const Spacer(),
+                                  Text(riwayat.materi!),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  const Text('Durasi :'),
+                                  const Spacer(),
+                                  Text(
+                                    '${DateFormat('kk:mm').format(
+                                      riwayat.jamMulai!,
+                                    )} - ${DateFormat('kk:mm').format(
+                                      riwayat.jamSelesai!,
+                                    )}',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

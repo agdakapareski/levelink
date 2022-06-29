@@ -27,7 +27,14 @@ class PembayaranProvider extends ChangeNotifier {
       hargaKelas,
     );
 
-    apiBayar = PembayaranApi().getPembayaran(idUser);
+    apiBayar = await PembayaranApi().getPembayaran(idUser);
+    notifyListeners();
+  }
+
+  updatePembayaran(int idPembayaran, int idUser) async {
+    await PembayaranApi().updatePembayaran(idPembayaran);
+
+    apiBayar = await PembayaranApi().getPembayaran(idUser);
     notifyListeners();
   }
 }

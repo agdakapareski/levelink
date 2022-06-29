@@ -10,6 +10,8 @@ import 'package:sivat/splash_screen.dart';
 
 import 'providers/pertemuan_provider.dart';
 
+//TODO 1: implementasi update bayar
+
 void main() {
   runApp(
     MultiProvider(
