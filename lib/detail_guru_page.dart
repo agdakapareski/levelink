@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/kelas_provider.dart';
 import 'package:sivat/widget/padded_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailGuruPage extends StatefulWidget {
   final int? idGuru;
@@ -18,6 +19,8 @@ class DetailGuruPage extends StatefulWidget {
   final String? kotaGuru;
   final String? provinsiGuru;
   final String? pendidikanTerakhir;
+  final String? jenisKelamin;
+  final String? noTelepon;
   const DetailGuruPage({
     Key? key,
     required this.idGuru,
@@ -27,6 +30,8 @@ class DetailGuruPage extends StatefulWidget {
     required this.kotaGuru,
     required this.provinsiGuru,
     required this.pendidikanTerakhir,
+    required this.jenisKelamin,
+    required this.noTelepon,
   }) : super(key: key);
 
   @override
@@ -48,6 +53,16 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
     return Scaffold(
       backgroundColor: Colors.white,
 
+      floatingActionButton: kelasProvider.loading == true
+          ? const SizedBox()
+          : FloatingActionButton(
+              onPressed: () {
+                launchUrl(Uri.parse('https://wa.me/${widget.noTelepon}'));
+              },
+              backgroundColor: Colors.green[700],
+              child: const Icon(Icons.whatsapp),
+            ),
+
       /// Tempat untuk melihat total cart
       bottomNavigationBar: kelasProvider.loading == true
           ? const SizedBox()
@@ -66,7 +81,11 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  InfoGuru(widget.namaGuru, widget.rating),
+                  InfoGuru(
+                    widget.namaGuru,
+                    widget.rating,
+                    widget.jenisKelamin,
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -251,7 +270,9 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
 class InfoGuru extends StatelessWidget {
   final String? namaGuru;
   final double? rating;
-  const InfoGuru(this.namaGuru, this.rating, {Key? key}) : super(key: key);
+  final String? jenisKelamin;
+  const InfoGuru(this.namaGuru, this.rating, this.jenisKelamin, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -268,12 +289,21 @@ class InfoGuru extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                namaGuru!,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+              Row(
+                children: [
+                  Text(
+                    namaGuru!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    jenisKelamin == 'laki-laki' ? Icons.male : Icons.female,
+                    color:
+                        jenisKelamin == 'laki-laki' ? Colour.blue : Colour.red,
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 5,
@@ -302,10 +332,14 @@ class InfoGuruDetail extends StatelessWidget {
   final String? kotaGuru;
   final String? provinsiGuru;
   final String? pendidikanTerakhir;
-  const InfoGuruDetail(this.alamatGuru, this.kotaGuru, this.provinsiGuru,
-      this.pendidikanTerakhir,
-      {Key? key})
-      : super(key: key);
+
+  const InfoGuruDetail(
+    this.alamatGuru,
+    this.kotaGuru,
+    this.provinsiGuru,
+    this.pendidikanTerakhir, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

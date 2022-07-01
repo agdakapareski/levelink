@@ -114,30 +114,17 @@ class _ActivityPageState extends State<ActivityPage> {
                       var riwayat = pertemuanProvider
                           .viewPertemuan.riwayatPertemuan![index];
 
-                      return Slidable(
-                        endActionPane: ActionPane(
-                          motion: const DrawerMotion(),
-                          extentRatio: 0.25,
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailRiwayatPertemuanPage(
-                                      riwayat: riwayat,
-                                    ),
-                                  ),
-                                );
-                              },
-                              backgroundColor: Colour.blue,
-                              foregroundColor: Colors.white,
-                              icon: Icons.list,
-                              label: 'Detail',
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailRiwayatPertemuanPage(
+                                riwayat: riwayat,
+                              ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border(

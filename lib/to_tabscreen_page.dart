@@ -2,6 +2,7 @@
 /// agar user tau bahwa sistem sedang melakukan login
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,8 @@ class _ToTabScreenState extends State<ToTabScreen> {
   Future<void> addToSp() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    log('addSP = $currentnoTelepon');
+
     prefs.setInt('currentid', currentid!);
     prefs.setString('currentnama', currentnama!);
     prefs.setString('currentjenjang', currentjenjang!);
@@ -33,6 +36,7 @@ class _ToTabScreenState extends State<ToTabScreen> {
     prefs.setString('currentalamatKota', currentalamatKota!);
     prefs.setString('currentalamatDetail', currentalamatDetail!);
     prefs.setString('currentjenisKelamin', currentjenisKelamin!);
+    prefs.setString('currentnoTelepon', currentnoTelepon!);
     prefs.setBool('isLogin', isLogin!);
 
     setState(() {});
@@ -60,7 +64,10 @@ class _ToTabScreenState extends State<ToTabScreen> {
         currentalamatKota = user['kota_pengguna'];
         currentalamatDetail = user['alamat_pengguna'];
         currentjenisKelamin = user['jenis_kelamin'];
+        currentnoTelepon = user['no_telepon'];
         isLogin = true;
+
+        log('before addtoSP: $currentnoTelepon');
 
         addToSp();
 

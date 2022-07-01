@@ -71,6 +71,26 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           const SizedBox(height: 16),
+          PaddedWidget(
+            child: Row(
+              children: [
+                const Text('Nomor Telepon : '),
+                const Spacer(),
+                Text('0$currentnoTelepon'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          PaddedWidget(
+            child: Row(
+              children: [
+                const Text('Jenis Kelamin : '),
+                const Spacer(),
+                Text(currentjenisKelamin!),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           const CustomDivider(),
           ListTile(
             onTap: () {

@@ -8,6 +8,7 @@ class Guru {
   String? alamatDetail;
   String? jenjang;
   String? jenisKelamin;
+  String? noTelepon;
   List<dynamic>? mataPelajarans;
 
   Guru({
@@ -20,6 +21,7 @@ class Guru {
     this.alamatDetail,
     this.jenjang,
     this.jenisKelamin,
+    this.noTelepon,
     this.mataPelajarans,
   });
 }

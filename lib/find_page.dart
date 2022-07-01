@@ -40,6 +40,7 @@ class _FindPageState extends State<FindPage> {
           id: data['id'],
           nama: data['nama_pengguna'],
           jenisKelamin: data['jenis_kelamin'],
+          noTelepon: data['no_telepon'],
 
           /// Algoritma dibawah untuk mengecek tipe data
           /// dari json response 'total_rating'.
@@ -160,6 +161,8 @@ listGuruBasedRating(BuildContext context, Guru pengajar) {
           kotaGuru: pengajar.alamatKota,
           provinsiGuru: pengajar.alamatProvinsi,
           pendidikanTerakhir: pengajar.jenjang,
+          jenisKelamin: pengajar.jenisKelamin,
+          noTelepon: pengajar.noTelepon,
         ),
       );
 

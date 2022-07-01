@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController provinsiController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController detailController = TextEditingController();
+  TextEditingController teleponController = TextEditingController();
 
   register(
     String nama,
@@ -122,6 +123,14 @@ class _RegisterPageState extends State<RegisterPage> {
             InputForm(
               labelText: 'password',
               controller: passwordController,
+            ),
+            SizedBox(
+              height: titleGap,
+            ),
+            InputForm(
+              labelText: 'telepon',
+              prefix: const Text('+62'),
+              controller: teleponController,
             ),
             SizedBox(
               height: titleGap,
