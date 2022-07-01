@@ -34,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String provinsi,
     String jenjang,
     String kelas,
+    String jenisKelamin,
   ) async {
     var url = Uri.parse('$mainUrl/register');
     var response = await http.post(url, body: {
@@ -46,6 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
       "provinsi_pengguna": provinsi,
       "jenjang": jenjang,
       "kelas": kelas,
+      "jenis_kelamin": jenisKelamin,
     });
 
     // var body = json.decode(response.body);
@@ -66,9 +68,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   List<int> kelasSD = [1, 2, 3, 4, 5, 6];
   List<int> kelasSMPSMA = [1, 2, 3];
+  List<String> jenisKelamin = ['laki-laki', 'perempuan'];
 
   String? selectedJenjang;
   String? selectedKelas;
+  String? selectedJenisKelamin;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +159,50 @@ class _RegisterPageState extends State<RegisterPage> {
                         )
                       : Text(
                           selectedJenjang!,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: titleGap,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.005,
+                horizontal: screenHeight * 0.015,
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: selectedJenisKelamin,
+                  items: jenisKelamin
+                      .map((e) => DropdownMenuItem<String>(
+                            child: Text(e),
+                            value: e,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedJenisKelamin = value;
+                    });
+                  },
+                  hint: selectedJenisKelamin == null
+                      ? const Text(
+                          'jenis kelamin',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : Text(
+                          selectedJenisKelamin!,
                           style: const TextStyle(
                             fontSize: 13,
                             color: Colors.grey,
@@ -271,6 +319,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   provinsiController.text,
                   selectedJenjang!,
                   selectedKelas!,
+                  selectedJenisKelamin!,
                 );
               },
             ),

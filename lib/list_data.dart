@@ -27,6 +27,7 @@ int? currentkelas;
 String? currentalamatProvinsi;
 String? currentalamatKota;
 String? currentalamatDetail;
+String? currentjenisKelamin;
 bool? isLogin;
 
 /// fungsi untuk mengambil data dari shared preferences
@@ -40,6 +41,7 @@ getSp() async {
   currentalamatProvinsi = prefs.getString('currentalamatProvinsi');
   currentalamatKota = prefs.getString('currentalamatKota');
   currentalamatDetail = prefs.getString('currentalamatDetail');
+  currentjenisKelamin = prefs.getString('currentjenisKelamin');
   isLogin = prefs.getBool('isLogin');
 }
 
@@ -53,5 +55,6 @@ void deleteCurrentUser() async {
   prefs.remove('currentalamatProvinsi');
   prefs.remove('currentalamatKota');
   prefs.remove('currentalamatDetail');
+  prefs.remove('currentjenisKelamin');
   prefs.remove('isLogin');
 }

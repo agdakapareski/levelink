@@ -20,7 +20,10 @@ class JadwalApi {
     if (response.statusCode == 200) {
       for (var jadwal in data) {
         Jadwal j = Jadwal(
-          guru: Guru(nama: jadwal['kelas']['user']['nama_pengguna']),
+          guru: Guru(
+            nama: jadwal['kelas']['user']['nama_pengguna'],
+            jenisKelamin: jadwal['kelas']['user']['jenis_kelamin'],
+          ),
           kelas: Kelas(
             mataPelajaran: MataPelajaran(
               mataPelajaran: jadwal['kelas']['mata_pelajaran_kelas']

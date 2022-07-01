@@ -41,6 +41,7 @@ class PertemuanApi {
         "is_aktif": pertemuan.isAktif,
         "evaluasi": pertemuan.evaluasi,
         "capaian": pertemuan.capaian,
+        "jam_selesai": pertemuan.jamSelesai,
       }),
     );
 
@@ -89,7 +90,7 @@ class PertemuanApi {
             : data['capaian'];
         pertemuan.evaluasi = data['evaluasi'];
         pertemuan.jamMulai = DateTime.parse(data['created_at']);
-        pertemuan.jamSelesai = DateTime.parse(data['updated_at']);
+        pertemuan.jamSelesai = DateTime.parse(data['jam_selesai']);
         viewPertemuan.pertemuanAktif = pertemuan;
       } else {
         viewPertemuan.pertemuanAktif = null;
@@ -118,7 +119,7 @@ class PertemuanApi {
               : item['capaian'],
           evaluasi: item['evaluasi'],
           jamMulai: DateTime.parse(item['created_at']),
-          jamSelesai: DateTime.parse(item['updated_at']),
+          jamSelesai: DateTime.parse(item['jam_selesai']),
         );
         riwayatPertemuan.add(p);
       }

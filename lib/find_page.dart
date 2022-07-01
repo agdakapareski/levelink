@@ -39,6 +39,7 @@ class _FindPageState extends State<FindPage> {
         Guru u = Guru(
           id: data['id'],
           nama: data['nama_pengguna'],
+          jenisKelamin: data['jenis_kelamin'],
 
           /// Algoritma dibawah untuk mengecek tipe data
           /// dari json response 'total_rating'.
