@@ -11,6 +11,7 @@ import 'package:sivat/list_data.dart';
 import 'package:sivat/model/jadwal_model.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
+import 'package:sivat/rating_page.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -189,7 +190,14 @@ listJadwal(Jadwal jadwal) {
       extentRatio: 0.3,
       children: [
         SlidableAction(
-          onPressed: (context) {},
+          onPressed: (context) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RatingPage(jadwal: jadwal),
+              ),
+            );
+          },
           backgroundColor: Colour.red,
           foregroundColor: Colors.white,
           icon: Icons.clear,

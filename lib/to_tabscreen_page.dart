@@ -26,8 +26,6 @@ class _ToTabScreenState extends State<ToTabScreen> {
   Future<void> addToSp() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    log('addSP = $currentnoTelepon');
-
     prefs.setInt('currentid', currentid!);
     prefs.setString('currentnama', currentnama!);
     prefs.setString('currentjenjang', currentjenjang!);
@@ -66,8 +64,6 @@ class _ToTabScreenState extends State<ToTabScreen> {
         currentjenisKelamin = user['jenis_kelamin'];
         currentnoTelepon = user['no_telepon'];
         isLogin = true;
-
-        log('before addtoSP: $currentnoTelepon');
 
         addToSp();
 
