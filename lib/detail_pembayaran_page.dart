@@ -14,12 +14,14 @@ class DetailPembayaranPage extends StatefulWidget {
   final String? namaGuru;
   final List<Tagihan>? tagihans;
   final double? totalHarga;
+  final bool? statusBayar;
   const DetailPembayaranPage({
     Key? key,
     required this.idPembayaran,
     required this.namaGuru,
     required this.tagihans,
     required this.totalHarga,
+    required this.statusBayar,
   }) : super(key: key);
 
   @override
@@ -31,70 +33,73 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   Widget build(BuildContext context) {
     final pembayaranProvider = Provider.of<PembayaranProvider>(context);
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      bottomNavigationBar: widget.statusBayar == false
+          ? BottomAppBar(
+              child: SizedBox(
+                height: 60,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Row(
                     children: [
-                      const Text(
-                        'TOTAL BAYAR',
-                        style: TextStyle(
-                          fontSize: 11.4,
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'TOTAL BAYAR',
+                              style: TextStyle(
+                                fontSize: 11.4,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              NumberFormat.simpleCurrency(
+                                      name: 'Rp. ', locale: 'id')
+                                  .format(widget.totalHarga),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        NumberFormat.simpleCurrency(name: 'Rp. ', locale: 'id')
-                            .format(widget.totalHarga),
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            pembayaranProvider.updatePembayaran(
+                              widget.idPembayaran!,
+                              currentid!,
+                            );
+
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 60,
+                            color: Colour.red,
+                            child: Center(
+                              child: Text(
+                                'Bayar',
+                                style: TextStyle(
+                                  color: Colors.grey[50],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      pembayaranProvider.updatePembayaran(
-                        widget.idPembayaran!,
-                        currentid!,
-                      );
-
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 60,
-                      color: Colour.red,
-                      child: Center(
-                        child: Text(
-                          'Bayar',
-                          style: TextStyle(
-                            color: Colors.grey[50],
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            )
+          : const SizedBox(),
       appBar: AppBar(
         title: Text(
           widget.namaGuru!,

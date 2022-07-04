@@ -90,7 +90,7 @@ class PertemuanApi {
             : data['capaian'];
         pertemuan.evaluasi = data['evaluasi'];
         pertemuan.jamMulai = DateTime.parse(data['created_at']);
-        pertemuan.jamSelesai = DateTime.parse(data['jam_selesai']);
+        pertemuan.jamSelesai = DateTime.parse(data['updated_at']);
         viewPertemuan.pertemuanAktif = pertemuan;
       } else {
         viewPertemuan.pertemuanAktif = null;

@@ -252,6 +252,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                           namaGuru: belumBayar.guru!.nama,
                                           tagihans: belumBayar.tagihan,
                                           totalHarga: belumBayar.totalBayar,
+                                          statusBayar: belumBayar.statusBayar,
                                         ),
                                       ),
                                     );
@@ -317,6 +318,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                           namaGuru: riwayatBayar.guru!.nama,
                                           tagihans: riwayatBayar.tagihan,
                                           totalHarga: riwayatBayar.totalBayar,
+                                          statusBayar: riwayatBayar.statusBayar,
                                         ),
                                       ),
                                     );

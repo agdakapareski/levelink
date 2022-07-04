@@ -57,7 +57,10 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
           ? const SizedBox()
           : FloatingActionButton(
               onPressed: () {
-                launchUrl(Uri.parse('https://wa.me/${widget.noTelepon}'));
+                launchUrl(
+                  Uri.parse('https://wa.me/62${widget.noTelepon}'),
+                  mode: LaunchMode.externalApplication,
+                );
               },
               backgroundColor: Colors.green[700],
               child: const Icon(Icons.whatsapp),
@@ -281,7 +284,7 @@ class InfoGuru extends StatelessWidget {
         children: [
           const CircleAvatar(
             child: Icon(Icons.person),
-            radius: 28,
+            radius: 25,
           ),
           const SizedBox(
             width: 16,
