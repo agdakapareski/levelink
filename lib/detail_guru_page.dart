@@ -8,6 +8,7 @@ import 'package:sivat/list_data.dart';
 import 'package:intl/intl.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/kelas_provider.dart';
+import 'package:sivat/rating_guru_page.dart';
 import 'package:sivat/widget/padded_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -88,6 +89,7 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
                     widget.namaGuru,
                     widget.rating,
                     widget.jenisKelamin,
+                    widget.idGuru,
                   ),
                   const SizedBox(
                     height: 20,
@@ -271,10 +273,12 @@ class _DetailGuruPageState extends State<DetailGuruPage> {
 }
 
 class InfoGuru extends StatelessWidget {
+  final int? idGuru;
   final String? namaGuru;
   final double? rating;
   final String? jenisKelamin;
-  const InfoGuru(this.namaGuru, this.rating, this.jenisKelamin, {Key? key})
+  const InfoGuru(this.namaGuru, this.rating, this.jenisKelamin, this.idGuru,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -289,40 +293,53 @@ class InfoGuru extends StatelessWidget {
           const SizedBox(
             width: 16,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    namaGuru!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RatingGuruPage(
+                    idGuru: idGuru,
+                  ),
+                ),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      namaGuru!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    jenisKelamin == 'laki-laki' ? Icons.male : Icons.female,
-                    color:
-                        jenisKelamin == 'laki-laki' ? Colour.blue : Colour.red,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Text(
-                    '$rating / 5.0',
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellow[600],
-                  ),
-                ],
-              ),
-            ],
+                    Icon(
+                      jenisKelamin == 'laki-laki' ? Icons.male : Icons.female,
+                      color: jenisKelamin == 'laki-laki'
+                          ? Colour.blue
+                          : Colour.red,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '$rating / 5.0',
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -45,26 +45,26 @@ class _DashboardPageState extends State<DashboardPage> {
         elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: 60,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: GestureDetector(
-              child: const CircleAvatar(
-                child: Icon(Icons.person),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AccountPage(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.symmetric(
+        //       horizontal: 16,
+        //     ),
+        //     child: GestureDetector(
+        //       child: const CircleAvatar(
+        //         child: Icon(Icons.person),
+        //       ),
+        //       onTap: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //             builder: (context) => const AccountPage(),
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: jadwalProvider.isLoading == true
           ? Center(

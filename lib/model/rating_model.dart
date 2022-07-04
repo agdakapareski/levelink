@@ -16,3 +16,13 @@ class Rating {
     this.evaluasi,
   });
 }
+
+class SummaryRating {
+  List<Rating>? rating;
+  double? rataRating;
+
+  SummaryRating({
+    this.rating,
+    this.rataRating,
+  });
+}

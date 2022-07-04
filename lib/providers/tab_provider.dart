@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sivat/account_page.dart';
 import 'package:sivat/activity_page.dart';
 
 import '../dashboard_page.dart';
@@ -26,8 +27,11 @@ class TabProvider extends ChangeNotifier {
     } else if (currentTab == 2) {
       currentScreen = const FindPage();
       notifyListeners();
-    } else {
+    } else if (currentTab == 3) {
       currentScreen = const TransactionPage();
+      notifyListeners();
+    } else {
+      currentScreen = const AccountPage();
       notifyListeners();
     }
     notifyListeners();

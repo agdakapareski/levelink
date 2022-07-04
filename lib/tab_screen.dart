@@ -80,6 +80,11 @@ class _TabScreenState extends State<TabScreen> {
             icon: Icon(Icons.receipt_rounded),
             label: 'Transaksi',
           ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            icon: Icon(Icons.person),
+            label: 'Akun',
+          ),
         ],
       ),
       body: SafeArea(

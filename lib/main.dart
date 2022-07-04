@@ -5,6 +5,7 @@ import 'package:sivat/providers/cart_provider.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
 import 'package:sivat/providers/kelas_provider.dart';
 import 'package:sivat/providers/pembayaran_provider.dart';
+import 'package:sivat/providers/rating_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
 import 'package:sivat/splash_screen.dart';
 
@@ -37,6 +38,9 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<PembayaranProvider>(
     create: (_) => PembayaranProvider(),
+  ),
+  ChangeNotifierProvider<RatingProvider>(
+    create: (_) => RatingProvider(),
   ),
 ];
 
