@@ -37,130 +37,144 @@ class _RatingGuruPageState extends State<RatingGuruPage> {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          PaddedWidget(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: ratingProvider.isLoading == true
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('memuat')
+                ],
+              ),
+            )
+          : Column(
               children: [
-                Column(
-                  children: [
-                    Text(
-                      ratingProvider.rating.rataRating.toString(),
-                      style: const TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    RatingBar.builder(
-                      ignoreGestures: true,
-                      allowHalfRating: true,
-                      initialRating: ratingProvider.rating.rataRating!,
-                      itemBuilder: (context, _) => const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      itemSize: 20,
-                      onRatingUpdate: (rating) {},
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      '${ratingProvider.rating.rating!.length} rating',
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
+                const SizedBox(height: 16),
+                PaddedWidget(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      listSummaryRating(ratingProvider.rating.rating!, 5),
-                      listSummaryRating(ratingProvider.rating.rating!, 4),
-                      listSummaryRating(ratingProvider.rating.rating!, 3),
-                      listSummaryRating(ratingProvider.rating.rating!, 2),
-                      listSummaryRating(ratingProvider.rating.rating!, 1),
+                      Column(
+                        children: [
+                          Text(
+                            ratingProvider.rating.rataRating.toString(),
+                            style: const TextStyle(
+                              fontSize: 38,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          RatingBar.builder(
+                            ignoreGestures: true,
+                            allowHalfRating: true,
+                            initialRating: ratingProvider.rating.rataRating!,
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            itemSize: 20,
+                            onRatingUpdate: (rating) {},
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            '${ratingProvider.rating.rating!.length} rating',
+                            style: const TextStyle(fontSize: 11),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            listSummaryRating(ratingProvider.rating.rating!, 5),
+                            listSummaryRating(ratingProvider.rating.rating!, 4),
+                            listSummaryRating(ratingProvider.rating.rating!, 3),
+                            listSummaryRating(ratingProvider.rating.rating!, 2),
+                            listSummaryRating(ratingProvider.rating.rating!, 1),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ratingProvider.rating.rating!.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: ratingProvider.rating.rating!.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey[200]!),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ratingProvider.rating.rating!.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: ratingProvider.rating.rating!.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]!),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colour.blue,
+                                        child: const Icon(
+                                          Icons.person,
+                                          color: Colors.white,
+                                          size: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Text(ratingProvider
+                                          .rating.rating![index].guru!.nama!),
+                                      const Spacer(),
+                                      RatingBar.builder(
+                                        ignoreGestures: true,
+                                        allowHalfRating: true,
+                                        initialRating: ratingProvider
+                                            .rating.rating![index].rating!,
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        itemSize: 15,
+                                        onRatingUpdate: (rating) {},
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Text(
+                                    ratingProvider
+                                        .rating.rating![index].evaluasi!,
+                                    maxLines: 5,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      : const ListTile(
+                          title: Text(
+                            'belum ada rating',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colour.blue,
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Text(ratingProvider
-                                    .rating.rating![index].guru!.nama!),
-                                const Spacer(),
-                                RatingBar.builder(
-                                  ignoreGestures: true,
-                                  allowHalfRating: true,
-                                  initialRating: ratingProvider
-                                      .rating.rating![index].rating!,
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  itemSize: 15,
-                                  onRatingUpdate: (rating) {},
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Text(
-                              ratingProvider.rating.rating![index].evaluasi!,
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.justify,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                : const ListTile(
-                    title: Text(
-                      'belum ada rating',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
     );
   }
 

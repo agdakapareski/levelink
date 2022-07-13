@@ -1,23 +1,24 @@
-// import 'dart:convert';
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sivat/list_data.dart';
-import 'package:sivat/login_page.dart';
+import 'package:sivat/tab_screen.dart';
 import 'package:sivat/widget/custom_button.dart';
 import 'package:sivat/widget/input_form.dart';
-import 'custom_theme.dart';
-import 'package:http/http.dart' as http;
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'custom_theme.dart';
+
+class UpdatePage extends StatefulWidget {
+  const UpdatePage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<UpdatePage> createState() => _UpdatePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _UpdatePageState extends State<UpdatePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -25,43 +26,53 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController provinsiController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController detailController = TextEditingController();
+  TextEditingController jenjangController = TextEditingController();
   TextEditingController teleponController = TextEditingController();
 
-  register(
+  update(
     String nama,
-    String email,
-    String password,
-    String role,
     String alamat,
     String kota,
     String provinsi,
     String jenjang,
     String kelas,
     String jenisKelamin,
-    String noTelepon,
   ) async {
-    var url = Uri.parse('$mainUrl/register');
-    var response = await http.post(url, body: {
+    var url = Uri.parse('$mainUrl/update-user/$currentid');
+    var response = await http.put(url, body: {
       "nama_pengguna": nama,
-      "email": email,
-      "password": password,
-      "role_pengguna": role,
       "alamat_pengguna": alamat,
       "kota_pengguna": kota,
       "provinsi_pengguna": provinsi,
       "jenjang": jenjang,
       "kelas": kelas,
       "jenis_kelamin": jenisKelamin,
-      "no_telepon": noTelepon,
     });
 
     log(response.body);
 
     if (response.statusCode == 200) {
-      Route route = MaterialPageRoute(
-        builder: (context) => const LoginPage(),
-      );
-      Navigator.pushReplacement(context, route);
+      Future<void> addToSp() async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('currentnama', nama);
+        prefs.setString('currentjenjang', jenjang);
+        prefs.setInt('currentkelas', int.parse(kelas));
+        prefs.setString('currentalamatProvinsi', provinsi);
+        prefs.setString('currentalamatKota', kota);
+        prefs.setString('currentalamatDetail', alamat);
+        prefs.setString('currentjenisKelamin', jenisKelamin);
+        currentnama = nama;
+        currentjenjang = jenjang;
+        currentkelas = int.parse(kelas);
+        currentalamatProvinsi = provinsi;
+        currentalamatKota = kota;
+        currentalamatDetail = alamat;
+        currentjenisKelamin = jenisKelamin;
+
+        setState(() {});
+      }
+
+      addToSp();
     }
   }
 
@@ -75,9 +86,22 @@ class _RegisterPageState extends State<RegisterPage> {
   List<int> kelasSMPSMA = [1, 2, 3];
   List<String> jenisKelamin = ['laki-laki', 'perempuan'];
 
-  String? selectedJenjang;
   String? selectedKelas;
   String? selectedJenisKelamin;
+  String? selectedJenjang;
+
+  @override
+  void initState() {
+    nameController.text = currentnama!;
+    provinsiController.text = currentalamatProvinsi!;
+    kotaController.text = currentalamatKota!;
+    detailController.text = currentalamatDetail!;
+    selectedJenjang = currentjenjang!;
+    selectedKelas = currentkelas.toString();
+
+    selectedJenisKelamin = currentjenisKelamin!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
             vertical: screenWidth * 0.04,
           ),
           children: [
-            const TitleText('Register Akun'),
+            const TitleText('Update Akun'),
             SizedBox(
               height: screenHeight * 0.025,
             ),
@@ -107,36 +131,6 @@ class _RegisterPageState extends State<RegisterPage> {
               labelText: 'nama lengkap',
               controller: nameController,
               textCapitalization: TextCapitalization.words,
-            ),
-            SizedBox(
-              height: titleGap,
-            ),
-            InputForm(
-              labelText: 'email',
-              hintText: 'email',
-              controller: emailController,
-            ),
-
-            SizedBox(
-              height: titleGap,
-            ),
-
-            // InputForm(
-            //   labelText: 'kelas',
-            //   controller: kelasController,
-            // ),
-            InputForm(
-              labelText: 'password',
-              controller: passwordController,
-            ),
-            SizedBox(
-              height: titleGap,
-            ),
-            InputForm(
-              labelText: 'telepon',
-              prefix: const Text('+62'),
-              controller: teleponController,
-              keyboardType: TextInputType.number,
             ),
             SizedBox(
               height: titleGap,
@@ -196,11 +190,62 @@ class _RegisterPageState extends State<RegisterPage> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   isExpanded: true,
+                  value: selectedKelas,
+                  items: selectedJenjang == 'SD'
+                      ? kelasSD
+                          .map((e) => DropdownMenuItem<String>(
+                                child: Text(e.toString()),
+                                value: e.toString(),
+                              ))
+                          .toList()
+                      : kelasSMPSMA
+                          .map((e) => DropdownMenuItem<String>(
+                                child: Text(e.toString()),
+                                value: e.toString(),
+                              ))
+                          .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedKelas = value;
+                    });
+                  },
+                  hint: selectedKelas == null
+                      ? const Text(
+                          'kelas',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : Text(
+                          selectedKelas!,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: titleGap,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.005,
+                horizontal: screenHeight * 0.015,
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  isExpanded: true,
                   value: selectedJenisKelamin,
                   items: jenisKelamin
                       .map((e) => DropdownMenuItem<String>(
-                            child: Text(e),
                             value: e,
+                            child: Text(e),
                           ))
                       .toList(),
                   onChanged: (value) {
@@ -229,57 +274,6 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(
               height: titleGap,
             ),
-            selectedJenjang != null
-                ? Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: screenHeight * 0.005,
-                      horizontal: screenHeight * 0.015,
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedKelas,
-                        items: selectedJenjang == 'SD'
-                            ? kelasSD
-                                .map((e) => DropdownMenuItem<String>(
-                                      child: Text(e.toString()),
-                                      value: e.toString(),
-                                    ))
-                                .toList()
-                            : kelasSMPSMA
-                                .map((e) => DropdownMenuItem<String>(
-                                      child: Text(e.toString()),
-                                      value: e.toString(),
-                                    ))
-                                .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedKelas = value;
-                          });
-                        },
-                        hint: selectedKelas == null
-                            ? const Text(
-                                'kelas',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            : Text(
-                                selectedKelas!,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-
             SizedBox(
               height: verticalGap,
             ),
@@ -305,7 +299,6 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(
               height: titleGap,
             ),
-
             SizedBox(
               height: titleGap,
             ),
@@ -320,48 +313,25 @@ class _RegisterPageState extends State<RegisterPage> {
               height: verticalGap,
             ),
             CustomButton(
-              text: 'Daftar',
+              text: 'Update',
               color: Colour.blue,
               onTap: () {
-                // Route route = MaterialPageRoute(
-                //   builder: (context) => const LoginPage(),
-                // );
-                // Navigator.pushReplacement(context, route);
-                register(
+                update(
                   nameController.text,
-                  emailController.text,
-                  passwordController.text,
-                  'siswa',
                   detailController.text,
                   kotaController.text,
                   provinsiController.text,
                   selectedJenjang!,
                   selectedKelas!,
                   selectedJenisKelamin!,
-                  teleponController.text,
-                );
+                ).then((value) => Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TabScreen(),
+                      ),
+                      (route) => false,
+                    ));
               },
-            ),
-            SizedBox(
-              height: verticalGap,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Sudah punya akun?'),
-                GestureDetector(
-                  onTap: () {
-                    Route route = MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    );
-                    Navigator.pushReplacement(context, route);
-                  },
-                  child: Text(
-                    ' Login',
-                    style: TextStyle(color: Colour.red),
-                  ),
-                ),
-              ],
             ),
             SizedBox(
               height: verticalGap,

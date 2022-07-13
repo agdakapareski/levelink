@@ -147,9 +147,9 @@ class _TransactionPageState extends State<TransactionPage> {
                                                   style: TextStyle(
                                                     color: transaksi.cart!
                                                                 .status! ==
-                                                            'requested'
-                                                        ? Colour.red
-                                                        : Colour.blue,
+                                                            'accepted'
+                                                        ? Colour.blue
+                                                        : Colour.red,
                                                   ),
                                                 ),
                                               ],

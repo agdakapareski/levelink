@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sivat/cari_guru_by_kota_page.dart';
+import 'package:sivat/cari_guru_by_mapel_page.dart';
 import 'package:sivat/custom_theme.dart';
 import 'package:sivat/detail_guru_page.dart';
 import 'package:sivat/list_data.dart';
@@ -98,14 +101,13 @@ class _FindPageState extends State<FindPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        toolbarHeight: 80,
-        title: InputForm(
-          controller: searchController,
-          labelText: 'cari guru',
-          isDense: true,
+        title: Image.asset(
+          'LEVELINK-logo-small.png',
+          height: 22,
         ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        toolbarHeight: 60,
       ),
       body: isLoading == true
           ? ListView(
@@ -231,28 +233,37 @@ class GuruBasedMapel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      height: 70,
-      child: Center(
-        child: Row(
-          children: const [
-            Text(
-              'Pilih Berdasarkan Mata Pelajaran',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        Route route = MaterialPageRoute(
+          builder: (context) => const CariGuruByMapelPage(),
+        );
+
+        Navigator.push(context, route);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        height: 70,
+        child: Center(
+          child: Row(
+            children: const [
+              Text(
+                'Pilih Berdasarkan Mata Pelajaran',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            )
-          ],
+              Spacer(),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -264,28 +275,37 @@ class GuruBasedKota extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      height: 70,
-      child: Center(
-        child: Row(
-          children: const [
-            Text(
-              'Telusuri Guru di Kotamu',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        Route route = MaterialPageRoute(
+          builder: (context) => const CariGuruByKotaPage(),
+        );
+
+        Navigator.push(context, route);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        height: 70,
+        child: Center(
+          child: Row(
+            children: const [
+              Text(
+                'Telusuri Guru di Kotamu',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            )
-          ],
+              Spacer(),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              )
+            ],
+          ),
         ),
       ),
     );

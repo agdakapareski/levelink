@@ -10,8 +10,11 @@ import 'package:sivat/custom_theme.dart';
 import 'package:sivat/list_data.dart';
 import 'package:sivat/model/jadwal_model.dart';
 import 'package:sivat/providers/jadwal_provider.dart';
+import 'package:sivat/providers/pembayaran_provider.dart';
 import 'package:sivat/providers/tab_provider.dart';
 import 'package:sivat/rating_page.dart';
+import 'package:sivat/widget/confirm_dialog.dart';
+import 'package:sivat/widget/custom_button.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -33,6 +36,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final tabProvider = Provider.of<TabProvider>(context);
     final jadwalProvider = Provider.of<JadwalProvider>(context);
+    final pembayaranProvider = Provider.of<PembayaranProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -173,7 +177,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           itemCount: jadwalProvider.jadwals.length,
                           itemBuilder: (context, index) {
                             Jadwal jadwal = jadwalProvider.jadwals[index];
-                            return listJadwal(jadwal);
+                            return listJadwal(
+                                jadwal, pembayaranProvider, tabProvider);
                           },
                         ),
                 ),
@@ -183,20 +188,100 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-listJadwal(Jadwal jadwal) {
+listJadwal(
+  Jadwal jadwal,
+  PembayaranProvider pembayaranProvider,
+  TabProvider tabProvider,
+) {
   return Slidable(
     endActionPane: ActionPane(
       motion: const DrawerMotion(),
       extentRatio: 0.3,
       children: [
         SlidableAction(
+          autoClose: false,
           onPressed: (context) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RatingPage(jadwal: jadwal),
-              ),
-            );
+            if (pembayaranProvider.apiBayar.belumBayar!.isEmpty ||
+                pembayaranProvider.apiBayar.belumBayar!
+                    .where((element) => element.guru!.id == jadwal.guru!.id!)
+                    .toList()
+                    .isEmpty) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RatingPage(jadwal: jadwal),
+                ),
+              );
+            } else {
+              confirmDialog(
+                title: 'Belum Bayar Tagihan',
+                context: context,
+                confirmation: 'Bayar Tagihan Terlebih Dahulu',
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.pop(context);
+                        // Route route = MaterialPageRoute(
+                        //   builder: (context) => MulaiKelasPage(
+                        //     jadwal: jadwal,
+                        //   ),
+                        // );
+
+                        // Navigator.push(
+                        //   context,
+                        //   route,
+                        // );
+                        Navigator.pop(context);
+                        tabProvider.changeScreen(3);
+                      },
+                      // Navigator.pop(context);
+                      // Slidable.of(context)!.close();
+
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colour.blue,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Bayar',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // const SizedBox(width: 10),
+                  // Expanded(
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pop(context);
+                  //       Slidable.of(context)!.close();
+                  //     },
+                  //     child: Container(
+                  //       padding: const EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //         color: Colour.red,
+                  //       ),
+                  //       child: const Center(
+                  //         child: Text(
+                  //           'batal',
+                  //           style: TextStyle(
+                  //             fontSize: 13,
+                  //             color: Colors.white,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              );
+            }
           },
           backgroundColor: Colour.red,
           foregroundColor: Colors.white,

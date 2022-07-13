@@ -6,6 +6,7 @@ import 'package:sivat/list_data.dart';
 import 'package:sivat/login_page.dart';
 import 'package:sivat/model/pertemuan_model.dart';
 import 'package:sivat/providers/pertemuan_provider.dart';
+import 'package:sivat/update_page.dart';
 import 'package:sivat/widget/padded_widget.dart';
 
 class AccountPage extends StatefulWidget {
@@ -29,8 +30,10 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     final pertemuanProvider = Provider.of<PertemuanProvider>(context);
-    pertemuanProvider.viewPertemuan.riwayatPertemuan!
-        .sort((a, b) => a.id!.compareTo(b.id!));
+    if (pertemuanProvider.viewPertemuan.riwayatPertemuan!.isNotEmpty) {
+      pertemuanProvider.viewPertemuan.riwayatPertemuan!
+          .sort((a, b) => a.id!.compareTo(b.id!));
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,6 +43,21 @@ class _AccountPageState extends State<AccountPage> {
         backgroundColor: Colour.blue,
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Route route = MaterialPageRoute(
+                builder: (context) {
+                  return const UpdatePage();
+                },
+              );
+
+              Navigator.push(context, route);
+            },
+            icon: const Icon(Icons.edit),
+            splashRadius: 20,
+          ),
+        ],
       ),
       body: pertemuanProvider.isLoading
           ? Center(
@@ -162,7 +180,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                         ),
                       )
-                    : SizedBox(
+                    : const SizedBox(
                         height: 200,
                         child: Center(
                           child: Text('belum ada pertemuan'),

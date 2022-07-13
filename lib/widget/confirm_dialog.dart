@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 confirmDialog({
   required String confirmation,
-  context,
+  required context,
   List<Widget>? children,
-  String? title,
+  required String? title,
 }) {
   return showDialog(
     context: context,
@@ -18,7 +18,9 @@ confirmDialog({
           children: [
             Text(
               confirmation,
-              style: const TextStyle(fontSize: 14,),
+              style: const TextStyle(
+                fontSize: 14,
+              ),
             ),
             const SizedBox(height: 30),
             Row(
